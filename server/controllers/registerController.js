@@ -8,8 +8,10 @@ const crypto = require("crypto");
 
 const registerController = async (req, res) => {
   try {
-    const { error } = validateRegister(req.body);
+    console.log("🔹 Register API hit with data:", req.body); // ✅ Log incoming request
 
+    const { error } = validateRegister(req.body);
+   
     if (error) {
       return res.status(400).send({ message: error.details[0].message });
     }
@@ -29,11 +31,17 @@ const registerController = async (req, res) => {
           message: "A verification link has been already sent to this Email",
         });
     }
+    console.log("🔹 Hashing password...");
 
     const salt = await bcrypt.genSalt(Number(process.env.SALT));
     const hashPassword = await bcrypt.hash(req.body.password, salt);
+    console.log("✅ Password hashed");
+
     // Save the user with hashed password
+    console.log("🔹 Saving user...");
+
     user = await new User({ ...req.body, password: hashPassword }).save();
+    console.log("✅ User saved:", user);
 
     // Generate a verification token and send an email
     const token = await new Token({

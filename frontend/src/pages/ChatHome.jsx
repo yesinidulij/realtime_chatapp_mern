@@ -118,9 +118,15 @@ const ChatHome = () => {
 
   const sendMessage = (ev) => {
     if (ev) ev.preventDefault();
-    console.log("sending message");
-    console.log(newMessage, selectedUserId);
+  
+    if (!selectedUserId) {
+      console.error("Error: No recipient selected.");
+      return;
+    }
+  
+    console.log("Sending message to:", selectedUserId);
     ws.send(JSON.stringify({ text: newMessage, recipient: selectedUserId }));
+  
     setNewMessage("");
     setMessages((prev) => [
       ...prev,
@@ -132,6 +138,11 @@ const ChatHome = () => {
       },
     ]);
   };
+ 
+  useEffect(() => {
+    console.log("Current selectedUserId:", selectedUserId);
+  }, [selectedUserId]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -147,7 +158,7 @@ const ChatHome = () => {
 
     fetchData();
   }, [selectedUserId]);
-  useEffect(() => {
+  useEffect(() => { 
     checkAuth();
     if (!isAuthenticated) {
       navigate("/");

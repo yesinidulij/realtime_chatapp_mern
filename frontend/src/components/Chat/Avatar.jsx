@@ -26,15 +26,12 @@ export default function Avatar({ username, userId, isOnline, avatarLink }) {
           className="squircle__inline text-xl text-white  uppercase "
           style={{ textShadow: "0.4px 0.4px 1px gray" }}
         >
-          {username && avatarLink ? (
-            <img
-              src={avatarLink}
-              className="h-10 grid place-content-center"
-              alt={username[0]}
-            />
-          ) : (
-            <span>{username[0]}</span>
-          )}
+       {username && avatarLink ? (
+  <img src={avatarLink} className="h-10 grid place-content-center" alt={username?.[0] || "User"} />
+) : (
+  <span>{username?.[0] || "?"}</span>
+)}
+
         </div>
   
         <style>

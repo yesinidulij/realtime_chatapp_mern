@@ -78,6 +78,7 @@ const createWebSocketServer = (server) => {
         text,
       });
 
+
       if (recipient && text) {
         [...wss.clients].forEach((client) => {
           if (client.userId === recipient) {
@@ -96,7 +97,6 @@ const createWebSocketServer = (server) => {
     // Sending online user list to all clients
 
     // Log online users to the console
-    console.log("Online Users:", onlineUsers);
   });
 };
 
